@@ -9,4 +9,4 @@ or you could go to an All tasks page by clicking the appropriate button. this pa
 ![](https://i.ibb.co/V2v8tQT/Screen-Shot-2020-02-11-at-11-10-24.png)
 ![](https://i.ibb.co/xqRf2dr/Screen-Shot-2020-02-11-at-11-19-34.png)
 
-Amazing~
+The app can now save your username to shared preference to be displayed throughout the page.
