@@ -6,4 +6,8 @@
     <string name="all_tasks">ALL TASKS</string>
     <string name="placeholderpicture">placeholderpicture</string>
     <string name="wait">wait</string>
+    <string name="username">Username</string>
+    <string name="clean">Clean</string>
+    <string name="cook">Cook</string>
+    <string name="laundry">Laundry</string>
 </resources>
