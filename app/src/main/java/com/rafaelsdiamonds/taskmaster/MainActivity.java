@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        // link to all tasks window
         Button allTasksButton = findViewById(R.id.button3);
         allTasksButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // link to laundry task
         laundryButton = findViewById(R.id.laundryButton);
         laundryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // link to clean task
         cleanButton = findViewById(R.id.cleanButton);
         cleanButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // link to cook task
         cookButton = findViewById(R.id.cookButton);
         cookButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -66,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        // link to setting page.
         Button settingsButton = findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
