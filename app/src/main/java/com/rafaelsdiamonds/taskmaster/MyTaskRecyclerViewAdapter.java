@@ -40,9 +40,9 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mTitleView.setText(mValues.get(position).getTitle());
-        holder.mBodyView.setText(mValues.get(position).getBody());
-        holder.mStateView.setText(mValues.get(position).getState());
+        holder.mTitleView.setText(mValues.get(position).getTitle() + "");
+        holder.mBodyView.setText(mValues.get(position).getBody() + "");
+        holder.mStateView.setText(mValues.get(position).getState() + "");
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

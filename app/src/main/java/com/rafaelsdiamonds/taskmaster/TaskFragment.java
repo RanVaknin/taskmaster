@@ -16,6 +16,8 @@ import com.example.taskmaster.R;
 import com.rafaelsdiamonds.taskmaster.dummy.DummyContent;
 import com.rafaelsdiamonds.taskmaster.dummy.DummyContent.DummyItem;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -72,7 +74,15 @@ public class TaskFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(Task.ITEMS, mListener));
+            List<Task> listOfCoolTasks = new ArrayList<>();
+            listOfCoolTasks.add(new Task("Clean","Need to clean the room"));
+            listOfCoolTasks.add(new Task("Laundry","Fold laundry that's in the dryer"));
+            listOfCoolTasks.add(new Task("Cook","Cook the fish recipe from grandma."));
+            listOfCoolTasks.add(new Task("Clean","Need to clean the room"));
+            listOfCoolTasks.add(new Task("Laundry","Fold laundry that's in the dryer"));
+            listOfCoolTasks.add(new Task("Cook","Cook the fish recipe from grandma."));
+
+            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(listOfCoolTasks, mListener));
         }
         return view;
     }
@@ -84,8 +94,8 @@ public class TaskFragment extends Fragment {
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
+//            throw new RuntimeException(context.toString()
+////                    + " must implement OnListFragmentInteractionListener");
         }
     }
 

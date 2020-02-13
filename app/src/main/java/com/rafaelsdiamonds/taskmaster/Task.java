@@ -7,10 +7,12 @@ public class Task {
     private String state;
 
 
+
+
     public Task(String title, String body) {
         this.title = title;
         this.body = body;
-//        this.state = state;
+        this.state = "new";
     }
 
 
