@@ -12,9 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import com.example.taskmaster.R;
-import com.rafaelsdiamonds.taskmaster.dummy.DummyContent;
-import com.rafaelsdiamonds.taskmaster.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -27,6 +26,7 @@ import java.util.List;
  * interface.
  */
 public class TaskFragment extends Fragment {
+    private List<Task> listOfCoolTasks;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -74,13 +74,11 @@ public class TaskFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            List<Task> listOfCoolTasks = new ArrayList<>();
+            listOfCoolTasks = new ArrayList<>();
             listOfCoolTasks.add(new Task("Clean","Need to clean the room"));
             listOfCoolTasks.add(new Task("Laundry","Fold laundry that's in the dryer"));
             listOfCoolTasks.add(new Task("Cook","Cook the fish recipe from grandma."));
-            listOfCoolTasks.add(new Task("Clean","Need to clean the room"));
-            listOfCoolTasks.add(new Task("Laundry","Fold laundry that's in the dryer"));
-            listOfCoolTasks.add(new Task("Cook","Cook the fish recipe from grandma."));
+
 
             recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(listOfCoolTasks, mListener));
         }
@@ -105,6 +103,10 @@ public class TaskFragment extends Fragment {
         mListener = null;
     }
 
+    public List<Task> getListOfCoolTasks() {
+        return listOfCoolTasks;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -117,6 +119,6 @@ public class TaskFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Task item);
     }
 }
