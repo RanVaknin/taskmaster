@@ -10,3 +10,5 @@ or you could go to an All tasks page by clicking the appropriate button. this pa
 ![](https://i.ibb.co/xqRf2dr/Screen-Shot-2020-02-11-at-11-19-34.png)
 
 The app can now save your username to shared preference to be displayed throughout the page.
+
+2/18/20 - tasks are now displayed in a recycler view and can be clicked onto to see a page describing specific tasks.
