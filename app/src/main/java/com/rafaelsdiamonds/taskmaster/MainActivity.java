@@ -45,34 +45,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // link to laundry task
-        laundryButton = findViewById(R.id.laundryButton);
-        laundryButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TaskDetail.class).putExtra("Task", laundryButton.getText().toString());
-                startActivity(i);
-
-
-            }
-        });
-
-        // link to clean task
-        cleanButton = findViewById(R.id.cleanButton);
-        cleanButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TaskDetail.class).putExtra("Task", cleanButton.getText().toString());
-                startActivity(i);
-            }
-        });
-
-        // link to cook task
-        cookButton = findViewById(R.id.cookButton);
-        cookButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TaskDetail.class).putExtra("Task", cookButton.getText().toString());
-                startActivity(i);
-            }
-        });
 
         // link to setting page.
         Button settingsButton = findViewById(R.id.settingsButton);
