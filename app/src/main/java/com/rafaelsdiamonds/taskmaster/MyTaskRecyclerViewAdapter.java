@@ -2,6 +2,8 @@ package com.rafaelsdiamonds.taskmaster;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,20 +40,23 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
-        holder.mTitleView.setText(mValues.get(position).getTitle() + "");
-        holder.mBodyView.setText(mValues.get(position).getBody() + "");
-        holder.mStateView.setText(mValues.get(position).getState() + "");
+        holder.mTitleView.setText(mValues.get(position).getTitle());
+        holder.mBodyView.setText(mValues.get(position).getBody());
+        holder.mStateView.setText(mValues.get(position).getState());
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
-                Log.i(TAG, "click!");
+                Context context = v.getContext();
+                Intent i = new Intent(context,TaskDetail.class).putExtra("Task",mValues.get(position).getTitle()).putExtra("TaskDetails",mValues.get(position).getBody());
+                context.startActivity(i);
+
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

@@ -1,12 +1,15 @@
 package com.rafaelsdiamonds.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -29,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, AddTask.class);
                 startActivity(i);
-
             }
         });
 
@@ -43,32 +45,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // link to laundry task
-        laundryButton = findViewById(R.id.laundryButton);
-        laundryButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TaskDetail.class).putExtra("Task",laundryButton.getText().toString());
-                startActivity(i);
-            }
-        });
-
-        // link to clean task
-        cleanButton = findViewById(R.id.cleanButton);
-        cleanButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TaskDetail.class).putExtra("Task",cleanButton.getText().toString());
-                startActivity(i);
-            }
-        });
-
-        // link to cook task
-        cookButton = findViewById(R.id.cookButton);
-        cookButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, TaskDetail.class).putExtra("Task",cookButton.getText().toString());
-                startActivity(i);
-            }
-        });
 
         // link to setting page.
         Button settingsButton = findViewById(R.id.settingsButton);
@@ -79,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     @Override
@@ -86,9 +63,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         TextView myTasks = findViewById(R.id.myTasks);
-        String usernameDisplay = sharedPref.getString("userName","My Tasks");
+        String usernameDisplay = sharedPref.getString("userName", "My Tasks");
 
-        if(!usernameDisplay.equals("My Tasks")){
+        if (!usernameDisplay.equals("My Tasks")) {
             myTasks.setText(usernameDisplay + "'s Tasks");
 
         }
