@@ -19,6 +19,7 @@ public class TaskDetail extends AppCompatActivity {
         TextView description = findViewById(R.id.description);
         description.setText(getIntent().getStringExtra("TaskDetails"));
 
+
     }
 
 
