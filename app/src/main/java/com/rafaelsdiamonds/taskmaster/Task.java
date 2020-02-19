@@ -1,7 +1,13 @@
 package com.rafaelsdiamonds.taskmaster;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity
 public class Task {
+
+    @PrimaryKey
+    private long id;
     private String title;
     private String body;
     private String state;
@@ -42,5 +48,13 @@ public class Task {
         this.state = state;
 
         }
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

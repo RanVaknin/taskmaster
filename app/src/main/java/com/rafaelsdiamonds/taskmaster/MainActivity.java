@@ -3,11 +3,13 @@ package com.rafaelsdiamonds.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
     }
 
     @Override
@@ -69,5 +72,10 @@ public class MainActivity extends AppCompatActivity {
             myTasks.setText(usernameDisplay + "'s Tasks");
 
         }
+
+        TaskDatabase db = Room.databaseBuilder(this, TaskDatabase.class, "task").allowMainThreadQueries().build();
+        Log.i("ran",db.taskDao().getAllTasks().toString());
+
+
     }
 }

@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +28,14 @@ import java.util.List;
  * interface.
  */
 public class TaskFragment extends Fragment {
-    private List<Task> listOfCoolTasks;
+    public static List<Task> listOfCoolTasks;
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private MyTaskRecyclerViewAdapter adapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -74,16 +77,15 @@ public class TaskFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            listOfCoolTasks = new ArrayList<>();
-            listOfCoolTasks.add(new Task("Clean","Need to clean the room"));
-            listOfCoolTasks.add(new Task("Laundry","Fold laundry that's in the dryer"));
-            listOfCoolTasks.add(new Task("Cook","Cook the fish recipe from grandma."));
-
-
-            recyclerView.setAdapter(new MyTaskRecyclerViewAdapter(listOfCoolTasks, mListener));
+            Context c = view.getContext();
+            TaskDatabase db = Room.databaseBuilder(c, TaskDatabase.class, "task").allowMainThreadQueries().build();
+            List<Task> listOfCoolTasks = db.taskDao().getAllTasks();
+            adapter = new MyTaskRecyclerViewAdapter(listOfCoolTasks, mListener);
+            recyclerView.setAdapter(adapter);
         }
         return view;
     }
+
 
 
     @Override
@@ -95,6 +97,12 @@ public class TaskFragment extends Fragment {
 //            throw new RuntimeException(context.toString()
 ////                    + " must implement OnListFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
