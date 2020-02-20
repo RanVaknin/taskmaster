@@ -12,3 +12,5 @@ or you could go to an All tasks page by clicking the appropriate button. this pa
 The app can now save your username to shared preference to be displayed throughout the page.
 
 2/18/20 - tasks are now displayed in a recycler view and can be clicked onto to see a page describing specific tasks.
+
+2/20/20 tasks are now added to dynamoDB and rendered from it.
