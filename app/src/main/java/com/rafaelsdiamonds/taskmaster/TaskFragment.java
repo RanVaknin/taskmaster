@@ -1,5 +1,6 @@
 package com.rafaelsdiamonds.taskmaster;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -9,17 +10,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
+import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
+import com.apollographql.apollo.GraphQLCall;
+import com.apollographql.apollo.api.Response;
+import com.apollographql.apollo.exception.ApolloException;
 import com.example.taskmaster.R;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.annotation.Nonnull;
 
 /**
  * A fragment representing a list of Items.
@@ -28,7 +41,10 @@ import java.util.List;
  * interface.
  */
 public class TaskFragment extends Fragment {
-    public static List<Task> listOfCoolTasks;
+    private AWSAppSyncClient mAWSAppSyncClient;
+    RecyclerView recyclerView;
+
+
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -66,26 +82,27 @@ public class TaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            Context c = view.getContext();
-            TaskDatabase db = Room.databaseBuilder(c, TaskDatabase.class, "task").allowMainThreadQueries().build();
-            List<Task> listOfCoolTasks = db.taskDao().getAllTasks();
-            adapter = new MyTaskRecyclerViewAdapter(listOfCoolTasks, mListener);
-            recyclerView.setAdapter(adapter);
+            mAWSAppSyncClient = AWSAppSyncClient.builder()
+                    .context(view.getContext().getApplicationContext())
+                    .awsConfiguration(new AWSConfiguration(view.getContext().getApplicationContext()))
+                    .build();
+
+
         }
         return view;
     }
-
 
 
     @Override
@@ -102,7 +119,32 @@ public class TaskFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
+        // when main resumes (fragment also resumes) and makes a query to the database we set network first we specify network first.
+        mAWSAppSyncClient.query(ListTasksQuery.builder().build()).responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
+                // make the request
+                .enqueue(new GraphQLCall.Callback<ListTasksQuery.Data>() {
+                    @Override
+                    //response type listTasksQuery.Data
+                    public void onResponse(@Nonnull final Response<ListTasksQuery.Data> response) {
+                        //open a thread for this request to be async
+                        Handler handler = new Handler(Looper.getMainLooper()) {
+                            // documentation wants us to override this handlemessage with our response data.
+                            @Override
+                            public void handleMessage(Message inputMessage) {
+                                adapter = new MyTaskRecyclerViewAdapter(response.data().listTasks().items(), null);
+                                recyclerView.setAdapter(adapter);
+                            }
+                        };
+                        handler.obtainMessage().sendToTarget();
+                    }
+
+                    @Override
+                    public void onFailure(@Nonnull ApolloException e) {
+
+                    }
+                });
+
+
     }
 
     @Override
@@ -111,9 +153,7 @@ public class TaskFragment extends Fragment {
         mListener = null;
     }
 
-    public List<Task> getListOfCoolTasks() {
-        return listOfCoolTasks;
-    }
+
 
     /**
      * This interface must be implemented by activities that contain this

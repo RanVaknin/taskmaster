@@ -4,12 +4,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
 import com.example.taskmaster.R;
 import com.rafaelsdiamonds.taskmaster.TaskFragment.OnListFragmentInteractionListener;
 import com.rafaelsdiamonds.taskmaster.dummy.DummyContent.DummyItem;
@@ -24,10 +24,10 @@ import java.util.List;
 public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecyclerViewAdapter.ViewHolder> {
 
     private final String TAG = "rvrv";
-    private final List<Task> mValues;
+    private List<ListTasksQuery.Item> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyTaskRecyclerViewAdapter(List<Task> items, OnListFragmentInteractionListener listener) {
+    public MyTaskRecyclerViewAdapter(List<ListTasksQuery.Item> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -42,15 +42,15 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
-        holder.mTitleView.setText(mValues.get(position).getTitle());
-        holder.mBodyView.setText(mValues.get(position).getBody());
-        holder.mStateView.setText(mValues.get(position).getState());
+        holder.mTitleView.setText(mValues.get(position).title());
+        holder.mBodyView.setText(mValues.get(position).body());
+        holder.mStateView.setText(mValues.get(position).state());
 
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Context context = v.getContext();
-                Intent i = new Intent(context,TaskDetail.class).putExtra("Task",mValues.get(position).getTitle()).putExtra("TaskDetails",mValues.get(position).getBody());
+                Intent i = new Intent(context,TaskDetail.class).putExtra("Task",mValues.get(position).title()).putExtra("TaskDetails",mValues.get(position).body());
                 context.startActivity(i);
 
             }
@@ -68,7 +68,7 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         public final TextView mTitleView;
         public final TextView mBodyView;
         public final TextView mStateView;
-        public Task mItem;
+        public ListTasksQuery.Item mItem;
 
         public ViewHolder(View view) {
             super(view);
