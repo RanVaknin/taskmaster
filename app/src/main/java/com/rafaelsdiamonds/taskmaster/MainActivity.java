@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Button laundryButton;
     Button cleanButton;
     Button cookButton;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        TaskDatabase db = Room.databaseBuilder(this, TaskDatabase.class, "task").allowMainThreadQueries().build();
-        Log.i("ran",db.taskDao().getAllTasks().toString());
 
 
     }

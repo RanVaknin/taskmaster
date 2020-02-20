@@ -6,8 +6,9 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Task {
 
-    @PrimaryKey
-    private long id;
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
     private String title;
     private String body;
     private String state;
@@ -54,7 +55,7 @@ public class Task {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 }
