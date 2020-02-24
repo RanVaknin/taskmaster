@@ -1,4 +1,58 @@
 # this is an auto generated file. This will be overwritten
+mutation CreateTeam(
+  $input: CreateTeamInput!
+  $condition: ModelTeamConditionInput
+) {
+  createTeam(input: $input, condition: $condition) {
+    id
+    name
+    tasks {
+      items {
+        id
+        title
+        body
+        state
+      }
+      nextToken
+    }
+  }
+}
+mutation UpdateTeam(
+  $input: UpdateTeamInput!
+  $condition: ModelTeamConditionInput
+) {
+  updateTeam(input: $input, condition: $condition) {
+    id
+    name
+    tasks {
+      items {
+        id
+        title
+        body
+        state
+      }
+      nextToken
+    }
+  }
+}
+mutation DeleteTeam(
+  $input: DeleteTeamInput!
+  $condition: ModelTeamConditionInput
+) {
+  deleteTeam(input: $input, condition: $condition) {
+    id
+    name
+    tasks {
+      items {
+        id
+        title
+        body
+        state
+      }
+      nextToken
+    }
+  }
+}
 mutation CreateTask(
   $input: CreateTaskInput!
   $condition: ModelTaskConditionInput
@@ -8,6 +62,13 @@ mutation CreateTask(
     title
     body
     state
+    team {
+      id
+      name
+      tasks {
+        nextToken
+      }
+    }
   }
 }
 mutation UpdateTask(
@@ -19,6 +80,13 @@ mutation UpdateTask(
     title
     body
     state
+    team {
+      id
+      name
+      tasks {
+        nextToken
+      }
+    }
   }
 }
 mutation DeleteTask(
@@ -30,5 +98,12 @@ mutation DeleteTask(
     title
     body
     state
+    team {
+      id
+      name
+      tasks {
+        nextToken
+      }
+    }
   }
 }

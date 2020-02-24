@@ -47,10 +47,15 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         holder.mStateView.setText(mValues.get(position).state());
 
 
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Context context = v.getContext();
-                Intent i = new Intent(context,TaskDetail.class).putExtra("Task",mValues.get(position).title()).putExtra("TaskDetails",mValues.get(position).body());
+                Intent i = new Intent(context,TaskDetail.class).putExtra("Task",mValues.get(position).title())
+                        .putExtra("TaskDetails",mValues.get(position).body());
+                if(mValues.get(position).team().name() != null){
+                    i.putExtra("TaskTeam",mValues.get(position).team().name());
+                }
                 context.startActivity(i);
 
             }
@@ -68,7 +73,10 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         public final TextView mTitleView;
         public final TextView mBodyView;
         public final TextView mStateView;
+        public final TextView mTeamView;
+
         public ListTasksQuery.Item mItem;
+
 
         public ViewHolder(View view) {
             super(view);
@@ -76,6 +84,8 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
             mTitleView = (TextView) view.findViewById(R.id.title);
             mBodyView = (TextView) view.findViewById(R.id.body);
             mStateView = (TextView) view.findViewById(R.id.state);
+            mTeamView = (TextView) view.findViewById(R.id.teamForThisTask);
+
 
         }
 

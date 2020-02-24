@@ -6,6 +6,37 @@
     android:layout_height="match_parent"
     tools:context="com.rafaelsdiamonds.taskmaster.AddTask">
 
+    <RadioGroup
+        android:id="@+id/taskTeamRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/saveTaskToDbButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
+
+        <RadioButton
+            android:id="@+id/teamPepsi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team Pepsi"
+            tools:text="teamPepsi" />
+
+        <RadioButton
+            android:id="@+id/teamSprite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team Sprite"
+            tools:text="teamSprite" />
+
+        <RadioButton
+            android:id="@+id/teamCoke"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team Coke"
+            tools:text="teamCoke" />
+    </RadioGroup>
+
     <TextView
         android:id="@+id/myTasks2"
         android:layout_width="wrap_content"
@@ -20,6 +51,7 @@
         app:layout_constraintVertical_bias="0.181" />
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
         android:layout_width="333dp"
         android:layout_height="46dp"
         app:layout_constraintBottom_toBottomOf="parent"
