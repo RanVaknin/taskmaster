@@ -30,15 +30,27 @@ public class AddTask extends AppCompatActivity {
 
     private AWSAppSyncClient mAWSAppSyncClient;
     RadioButton radioButton;
-    private static final int teamPepsiRadioButtonId = 2131230983;//first radio button id
-    private static final int teamSpriteRadioButtonId = 2131230984;//second radio button id
-    private static final int teamCokeRadioButtonId = 2131230981;//third radio button id
-
+    int[] buttons = new int[3];
+    RadioGroup radioGroup;
+    int teamPepsiRadioButtonId;
+    int teamSpriteRadioButtonId;
+    int teamCokeRadioButtonId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addtask);
+        radioGroup = (RadioGroup) findViewById(R.id.taskTeamRadioGroup);
+        int radioGroupSize = radioGroup.getChildCount();
+        buttons[0] = teamPepsiRadioButtonId;
+        buttons[1] = teamSpriteRadioButtonId;
+        buttons[2] = teamCokeRadioButtonId;
+
+        for(int i = 0 ; i < radioGroupSize ; i ++){
+            buttons[i] = radioGroup.getChildAt(i).getId();
+        }
+
+
 
         mAWSAppSyncClient = AWSAppSyncClient.builder()
                 .context(getApplicationContext())
@@ -62,7 +74,7 @@ public class AddTask extends AppCompatActivity {
             }
         });
 
-        final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.taskTeamRadioGroup);
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -74,22 +86,23 @@ public class AddTask extends AppCompatActivity {
 
         b.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                final int selectedId = radioGroup.getCheckedRadioButtonId();
-
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+                System.out.println("selectedId = " + selectedId);
+                System.out.println("buttons: "+buttons[0]+" "+ buttons[1]+" " + buttons[2]);
 
                 // determining the string value of radio button based on auto generated id number of radio number.
-                String selectedTeamTextToChange = "";
-                if(selectedId == teamPepsiRadioButtonId){
+                String selectedTeamTextToChange = "teamPepsi";
+                if(selectedId == buttons[0]){
                     selectedTeamTextToChange = "teamPepsi";
-                } else if (selectedId == teamSpriteRadioButtonId){
+                } else if (selectedId == buttons[1]){
                     selectedTeamTextToChange = "teamSprite";
-                } else if (selectedId == teamCokeRadioButtonId){
+                } else if (selectedId == buttons[2]){
                     selectedTeamTextToChange = "teamCoke";
                 }
-                radioButton = findViewById(selectedId);
                 EditText taskTitle = findViewById(R.id.addTaskTitle);
                 EditText taskBody = findViewById(R.id.addTaskBody);
                 setContentView(R.layout.activity_main);
+                Log.e("rvrv",selectedTeamTextToChange);
                 System.out.println("selectedTeamTextToChange = " + selectedTeamTextToChange);
                 System.out.println("this thing is amazing" +teamHashmap.get(selectedTeamTextToChange));
 
