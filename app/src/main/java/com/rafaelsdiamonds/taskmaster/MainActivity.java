@@ -1,20 +1,21 @@
 package com.rafaelsdiamonds.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
+
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
+import com.amazonaws.amplify.generated.graphql.ListTeamsQuery;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.example.taskmaster.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,11 +23,24 @@ public class MainActivity extends AppCompatActivity {
     Button cleanButton;
     Button cookButton;
     RecyclerView recyclerView;
+    private AWSAppSyncClient mAWSAppSyncClient;
+    Team teamSprite;
+    Team teamPepsi;
+    Team teamCoke;
+
+    String[] taskName;
+    String[] taskState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setContentView(R.layout.activity_main);
+        mAWSAppSyncClient = AWSAppSyncClient.builder()
+                .context(getApplicationContext())
+                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
+                .build();
 
 
         Button addTaskButton = findViewById(R.id.add_task);
@@ -59,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     @Override
@@ -75,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
     }
+
+
 }
