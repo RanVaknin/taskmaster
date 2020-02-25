@@ -48,7 +48,6 @@ public class TaskFragment extends Fragment {
     RecyclerView recyclerView;
 
 
-
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
@@ -137,24 +136,19 @@ public class TaskFragment extends Fragment {
                                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
                                 List<ListTasksQuery.Item> dbResults = new ArrayList<>();
                                 String spTeam = sharedPref.getString("teamName", "");
-                                if(spTeam == ""){
+                                // checks if there is a team in local storage, if not show all results, if we do have a team only show results for that team.
+                                if (spTeam.equals("")) {
                                     adapter = new MyTaskRecyclerViewAdapter(response.data().listTasks().items(), null);
                                     recyclerView.setAdapter(adapter);
-                                }else {
+                                } else {
                                     for (ListTasksQuery.Item item : response.data().listTasks().items()) {
-                                        if (item.team().name() == spTeam) {
+                                        if (item.team().name().equals(spTeam)) {
                                             dbResults.add(item);
-                                            System.out.println("item = " + item);
-                                            System.out.println("spTeam = " + spTeam);
                                         }
                                     }
                                     adapter = new MyTaskRecyclerViewAdapter(dbResults, null);
                                     recyclerView.setAdapter(adapter);
-
                                 }
-
-                                adapter = new MyTaskRecyclerViewAdapter(response.data().listTasks().items(), null);
-                                recyclerView.setAdapter(adapter);
                             }
                         };
                         handler.obtainMessage().sendToTarget();
@@ -174,7 +168,6 @@ public class TaskFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
 
 
     /**
