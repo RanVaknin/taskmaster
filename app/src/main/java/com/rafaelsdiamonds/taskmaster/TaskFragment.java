@@ -2,6 +2,7 @@ package com.rafaelsdiamonds.taskmaster;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,10 +14,12 @@ import androidx.room.Room;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
@@ -131,6 +134,25 @@ public class TaskFragment extends Fragment {
                             // documentation wants us to override this handlemessage with our response data.
                             @Override
                             public void handleMessage(Message inputMessage) {
+                                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+                                List<ListTasksQuery.Item> dbResults = new ArrayList<>();
+                                String spTeam = sharedPref.getString("teamName", "");
+                                if(spTeam == ""){
+                                    adapter = new MyTaskRecyclerViewAdapter(response.data().listTasks().items(), null);
+                                    recyclerView.setAdapter(adapter);
+                                }else {
+                                    for (ListTasksQuery.Item item : response.data().listTasks().items()) {
+                                        if (item.team().name() == spTeam) {
+                                            dbResults.add(item);
+                                            System.out.println("item = " + item);
+                                            System.out.println("spTeam = " + spTeam);
+                                        }
+                                    }
+                                    adapter = new MyTaskRecyclerViewAdapter(dbResults, null);
+                                    recyclerView.setAdapter(adapter);
+
+                                }
+
                                 adapter = new MyTaskRecyclerViewAdapter(response.data().listTasks().items(), null);
                                 recyclerView.setAdapter(adapter);
                             }
