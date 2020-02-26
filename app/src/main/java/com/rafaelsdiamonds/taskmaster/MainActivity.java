@@ -1,11 +1,11 @@
 package com.rafaelsdiamonds.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import android.preference.PreferenceManager;
 
 import android.util.Log;
@@ -13,38 +13,41 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
-import com.amazonaws.amplify.generated.graphql.ListTeamsQuery;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.Callback;
-import com.amazonaws.mobile.client.SignOutOptions;
 import com.amazonaws.mobile.client.UserState;
 import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
-import com.amazonaws.services.cognitoidentityprovider.model.GetUserAttributeVerificationCodeRequest;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferService;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.taskmaster.R;
 
-public class MainActivity extends AppCompatActivity {
-    Button laundryButton;
-    Button cleanButton;
-    Button cookButton;
-    RecyclerView recyclerView;
-    private AWSAppSyncClient mAWSAppSyncClient;
-    Team teamSprite;
-    Team teamPepsi;
-    Team teamCoke;
-    String username = "";
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 
-    String[] taskName;
-    String[] taskState;
+
+public class MainActivity extends AppCompatActivity {
+
+    private AWSAppSyncClient mAWSAppSyncClient;
+
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //initialize S3 transfer service.
+        getApplicationContext().startService(new Intent(getApplicationContext(), TransferService.class));
 
-        setContentView(R.layout.activity_main);
+        //pull in dynamo
         mAWSAppSyncClient = AWSAppSyncClient.builder()
                 .context(getApplicationContext())
                 .awsConfiguration(new AWSConfiguration(getApplicationContext()))
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("rvrv", "onResult: " + userStateDetails.getUserState());
                         if (userStateDetails.getUserState().equals(UserState.SIGNED_OUT)) {
                             loginUi();
+
                         }
                     }
 
@@ -70,22 +74,11 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
-
         Button addTaskButton = findViewById(R.id.add_task);
-        addTaskButton.setOnClickListener(new View.OnClickListener() {
+        Button logOutButton = findViewById(R.id.logoutButton);
+        logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AWSMobileClient.getInstance().signOut(SignOutOptions.builder().signOutGlobally(true).build(), new Callback<Void>() {
-                    @Override
-                    public void onResult(final Void result) {
-                        Log.d("rvrv", "signed-out");
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Log.e("rvrv", "sign-out error", e);
-                    }
-                });
                 AWSMobileClient.getInstance().signOut();
                 loginUi();
             }
@@ -121,19 +114,104 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void loginUi(){
-        AWSMobileClient.getInstance().showSignIn(MainActivity.this, new Callback<UserStateDetails>() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String user = sharedPref.getString("username", "fuckyou");
+
+        TextView myTaskHeader = findViewById(R.id.myTaskHeader);
+
+        myTaskHeader.setText(username + "'s Tasks");
+    }
+
+
+
+    public void uploadWithTransferUtility() {
+
+        TransferUtility transferUtility =
+                TransferUtility.builder()
+                        .context(getApplicationContext())
+                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
+                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
+                        .build();
+
+        File file = new File(getApplicationContext().getFilesDir(), "sample.txt");
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.append("Howdy World!");
+            writer.close();
+        }
+        catch(Exception e) {
+            Log.e("rvrv", e.getMessage());
+        }
+
+        TransferObserver uploadObserver =
+                transferUtility.upload(
+                        "public/sample.txt",
+                        new File(getApplicationContext().getFilesDir(),"sample.txt"));
+
+        // Attach a listener to the observer to get state update and progress notifications
+        uploadObserver.setTransferListener(new TransferListener() {
+
+            @Override
+            public void onStateChanged(int id, TransferState state) {
+                Log.i("rvrv", "state changed to " + state);
+                if (TransferState.COMPLETED == state) {
+                    // Handle a completed upload.
+                }
+            }
+
+            @Override
+            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
+                int percentDone = (int)percentDonef;
+
+                Log.d("rvrv", "ID:" + id + " bytesCurrent: " + bytesCurrent
+                        + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
+            }
+
+            @Override
+            public void onError(int id, Exception ex) {
+                // Handle errors
+                Log.e("rvrv", ex.toString());
+            }
+
+        });
+
+        // If you prefer to poll for the data, instead of attaching a
+        // listener, check for the state and progress in the observer.
+        if (TransferState.COMPLETED == uploadObserver.getState()) {
+            // Handle a completed upload.
+        }
+
+        Log.d("rvrv", "Bytes Transferred: " + uploadObserver.getBytesTransferred());
+        Log.d("rvrv", "Bytes Total: " + uploadObserver.getBytesTotal());
+    }
+
+
+    public void loginUi() {
+        AWSMobileClient.getInstance().showSignIn(this, new Callback<UserStateDetails>() {
             @Override
             public void onResult(UserStateDetails result) {
                 Log.d("rvrv", "onResult: " + result.getUserState());
                 try {
                     username = AWSMobileClient.getInstance().getUserAttributes().get("given_name");
-                }
-                catch(Exception e) {
-                    Log.e("rvrv", "onError: ", e);
-                }
+                    System.out.println("username = " + username);
+                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("username", username);
+                    TextView myTaskHeader = MainActivity.this.findViewById(R.id.myTaskHeader);
+                    myTaskHeader.setText(username + "'s Tasks");
 
+
+                    uploadWithTransferUtility();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
 
             @Override
             public void onError(Exception e) {
@@ -141,23 +219,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        TextView myTasks = findViewById(R.id.myTasks);
-        String usernameDisplay = sharedPref.getString("userName", "My Tasks");
-
-        if (!usernameDisplay.equals("My Tasks")) {
-            myTasks.setText(usernameDisplay + "'s Tasks");
-
-        }
-
-        setTitle(username + "'s tasks");
-
-
-    }
-
 
 }

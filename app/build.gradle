@@ -23,6 +23,9 @@ android {
 dependencies {
     def room_version = "2.2.3"
 
+    //S3
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.15.+'
+
     //Base SDK
     implementation 'com.amazonaws:aws-android-sdk-core:2.15.+'
 
