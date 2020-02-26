@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.rafaelsdiamonds.taskmaster.MainActivity">
 
-    <TextView
-        android:id="@+id/myTasks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/my_tasks"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.219"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.181" />
-
     <Button
         android:id="@+id/add_task"
         android:layout_width="wrap_content"
@@ -58,10 +45,8 @@
         android:id="@+id/myTasksRecyclerView"
         android:layout_width="409dp"
         android:layout_height="421dp"
-        android:layout_marginTop="1dp"
         android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toTopOf="@+id/add_task"
-        app:layout_constraintTop_toBottomOf="@+id/myTasks"
         tools:layout_editor_absoluteX="1dp" />
 
     <Button
@@ -75,5 +60,17 @@
         app:layout_constraintEnd_toStartOf="@+id/settingsButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/myTaskHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="58dp"
+        android:layout_marginBottom="20dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/myTasksRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoutButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

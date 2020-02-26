@@ -1,9 +1,13 @@
 package com.rafaelsdiamonds.taskmaster;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +33,8 @@ import type.CreateTaskInput;
 public class AddTask extends AppCompatActivity {
 
     private AWSAppSyncClient mAWSAppSyncClient;
+    int SELECTED_PHOTO = 1;
+    Uri uri;
     RadioButton radioButton;
     int[] buttons = new int[3];
     RadioGroup radioGroup;
@@ -51,6 +57,16 @@ public class AddTask extends AppCompatActivity {
         }
 
 
+
+        Button uploadButton = findViewById(R.id.uploadButton);
+        uploadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent,SELECTED_PHOTO);
+            }
+        });
 
         mAWSAppSyncClient = AWSAppSyncClient.builder()
                 .context(getApplicationContext())
@@ -135,4 +151,14 @@ public class AddTask extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == SELECTED_PHOTO && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            uri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+            }
+        }
+    }
 }
