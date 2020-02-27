@@ -16,3 +16,5 @@ The app can now save your username to shared preference to be displayed througho
 2/20/20 tasks are now added to dynamoDB and rendered from it.
 
 2/25 users are now able to sign up, login and sign out of the app.
+
+2/26 users are now able to upload pictures to S3 bucket and associate it with task, and then using Picasso photos are being rendered to each individual task's page.
