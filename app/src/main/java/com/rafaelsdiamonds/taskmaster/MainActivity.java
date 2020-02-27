@@ -126,70 +126,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public void uploadWithTransferUtility() {
-
-        TransferUtility transferUtility =
-                TransferUtility.builder()
-                        .context(getApplicationContext())
-                        .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
-                        .s3Client(new AmazonS3Client(AWSMobileClient.getInstance()))
-                        .build();
-
-        File file = new File(getApplicationContext().getFilesDir(), "sample.txt");
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.append("Howdy World!");
-            writer.close();
-        }
-        catch(Exception e) {
-            Log.e("rvrv", e.getMessage());
-        }
-
-        TransferObserver uploadObserver =
-                transferUtility.upload(
-                        "public/sample.txt",
-                        new File(getApplicationContext().getFilesDir(),"sample.txt"));
-
-        // Attach a listener to the observer to get state update and progress notifications
-        uploadObserver.setTransferListener(new TransferListener() {
-
-            @Override
-            public void onStateChanged(int id, TransferState state) {
-                Log.i("rvrv", "state changed to " + state);
-                if (TransferState.COMPLETED == state) {
-                    // Handle a completed upload.
-                }
-            }
-
-            @Override
-            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-                float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
-                int percentDone = (int)percentDonef;
-
-                Log.d("rvrv", "ID:" + id + " bytesCurrent: " + bytesCurrent
-                        + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
-            }
-
-            @Override
-            public void onError(int id, Exception ex) {
-                // Handle errors
-                Log.e("rvrv", ex.toString());
-            }
-
-        });
-
-        // If you prefer to poll for the data, instead of attaching a
-        // listener, check for the state and progress in the observer.
-        if (TransferState.COMPLETED == uploadObserver.getState()) {
-            // Handle a completed upload.
-        }
-
-        Log.d("rvrv", "Bytes Transferred: " + uploadObserver.getBytesTransferred());
-        Log.d("rvrv", "Bytes Total: " + uploadObserver.getBytesTotal());
-    }
-
-
     public void loginUi() {
         AWSMobileClient.getInstance().showSignIn(this, new Callback<UserStateDetails>() {
             @Override
@@ -203,9 +139,6 @@ public class MainActivity extends AppCompatActivity {
                     editor.putString("username", username);
                     TextView myTaskHeader = MainActivity.this.findViewById(R.id.myTaskHeader);
                     myTaskHeader.setText(username + "'s Tasks");
-
-
-                    uploadWithTransferUtility();
 
                 } catch (Exception e) {
                     e.printStackTrace();
