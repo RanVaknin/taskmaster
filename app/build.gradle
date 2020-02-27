@@ -31,6 +31,8 @@ dependencies {
 
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.15.+'
 
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 //For the drop-in UI also:
     implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.15.+'
     implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.15.+'

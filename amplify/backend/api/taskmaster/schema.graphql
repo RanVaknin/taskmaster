@@ -8,6 +8,7 @@ type Task @model {
   id: ID!
   title: String
   body: String
+  image: String
   state: String
   team: Team @connection(name: "TeamTasks")
 }

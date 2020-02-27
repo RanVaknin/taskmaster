@@ -47,17 +47,15 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
         holder.mStateView.setText(mValues.get(position).state());
 
 
-
         holder.mView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent i = new Intent(context,TaskDetail.class).putExtra("Task",mValues.get(position).title())
                         .putExtra("TaskDetails",mValues.get(position).body());
                 if(mValues.get(position).team().name() != null){
-                    i.putExtra("TaskTeam",mValues.get(position).team().name());
+                    i.putExtra("TaskTeam",mValues.get(position).team().name()).putExtra("TaskImg",mValues.get(position).image());
                 }
                 context.startActivity(i);
-
             }
         });
     }

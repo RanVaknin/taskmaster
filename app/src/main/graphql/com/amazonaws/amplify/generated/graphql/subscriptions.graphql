@@ -8,6 +8,7 @@ subscription OnCreateTeam {
         id
         title
         body
+        image
         state
       }
       nextToken
@@ -23,6 +24,7 @@ subscription OnUpdateTeam {
         id
         title
         body
+        image
         state
       }
       nextToken
@@ -38,6 +40,7 @@ subscription OnDeleteTeam {
         id
         title
         body
+        image
         state
       }
       nextToken
@@ -49,6 +52,7 @@ subscription OnCreateTask {
     id
     title
     body
+    image
     state
     team {
       id
@@ -64,6 +68,7 @@ subscription OnUpdateTask {
     id
     title
     body
+    image
     state
     team {
       id
@@ -79,6 +84,7 @@ subscription OnDeleteTask {
     id
     title
     body
+    image
     state
     team {
       id

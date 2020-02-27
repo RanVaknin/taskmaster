@@ -8,6 +8,7 @@ query GetTeam($id: ID!) {
         id
         title
         body
+        image
         state
       }
       nextToken
@@ -35,6 +36,7 @@ query GetTask($id: ID!) {
     id
     title
     body
+    image
     state
     team {
       id
@@ -55,6 +57,7 @@ query ListTasks(
       id
       title
       body
+      image
       state
       team {
         id

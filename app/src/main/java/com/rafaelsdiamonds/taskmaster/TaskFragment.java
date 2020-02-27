@@ -122,20 +122,24 @@ public class TaskFragment extends Fragment {
     public void onResume() {
         super.onResume();
         // when main resumes (fragment also resumes) and makes a query to the database we set network first we specify network first.
+
         mAWSAppSyncClient.query(ListTasksQuery.builder().build()).responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
                 // make the request
                 .enqueue(new GraphQLCall.Callback<ListTasksQuery.Data>() {
                     @Override
                     //response type listTasksQuery.Data
                     public void onResponse(@Nonnull final Response<ListTasksQuery.Data> response) {
+
                         //open a thread for this request to be async
                         Handler handler = new Handler(Looper.getMainLooper()) {
                             // documentation wants us to override this handlemessage with our response data.
+
                             @Override
                             public void handleMessage(Message inputMessage) {
                                 SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
                                 List<ListTasksQuery.Item> dbResults = new ArrayList<>();
                                 String spTeam = sharedPref.getString("teamName", "");
+
                                 // checks if there is a team in local storage, if not show all results, if we do have a team only show results for that team.
                                 if (spTeam.equals("")) {
                                     adapter = new MyTaskRecyclerViewAdapter(response.data().listTasks().items(), null);
@@ -144,14 +148,19 @@ public class TaskFragment extends Fragment {
                                     for (ListTasksQuery.Item item : response.data().listTasks().items()) {
                                         if (item.team().name().equals(spTeam)) {
                                             dbResults.add(item);
+
                                         }
                                     }
                                     adapter = new MyTaskRecyclerViewAdapter(dbResults, null);
                                     recyclerView.setAdapter(adapter);
+
                                 }
+
                             }
+
                         };
                         handler.obtainMessage().sendToTarget();
+
                     }
 
                     @Override

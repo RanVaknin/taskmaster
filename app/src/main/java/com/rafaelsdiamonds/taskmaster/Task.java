@@ -12,17 +12,27 @@ public class Task {
     private String title;
     private String body;
     private String state;
+    private String image;
 
 
 
 
-    public Task(String title, String body) {
+    public Task(String title, String body, String image) {
         this.title = title;
         this.body = body;
         this.state = "new";
+        this.image = image;
     }
 
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+
+    public String getImage() {
+        return image;
+    }
     public String getTitle() {
         return title;
     }
