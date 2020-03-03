@@ -28,7 +28,6 @@ import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
-import com.example.taskmaster.R;
 import com.squareup.picasso.Picasso;
 
 import org.xml.sax.InputSource;

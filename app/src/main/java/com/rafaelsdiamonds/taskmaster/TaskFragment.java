@@ -29,7 +29,6 @@ import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
-import com.example.taskmaster.R;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
