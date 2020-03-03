@@ -10,14 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.amazonaws.amplify.generated.graphql.ListTasksQuery;
-import com.example.taskmaster.R;
 import com.rafaelsdiamonds.taskmaster.TaskFragment.OnListFragmentInteractionListener;
-import com.rafaelsdiamonds.taskmaster.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link } and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */

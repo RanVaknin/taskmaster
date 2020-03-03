@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.amazonaws.appsync'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -23,6 +24,20 @@ android {
 dependencies {
     def room_version = "2.2.3"
 
+    //volley
+    implementation 'com.android.volley:volley:1.1.1'
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    //firebase
+
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-messaging:17.3.0'
+
+    implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.15.+'
+
     //S3
     implementation 'com.amazonaws:aws-android-sdk-s3:2.15.+'
 
@@ -30,6 +45,8 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-core:2.15.+'
 
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.15.+'
+
+
 
 
     implementation 'com.squareup.picasso:picasso:2.71828'

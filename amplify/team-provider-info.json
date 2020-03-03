@@ -14,6 +14,13 @@
         "categories": {
             "auth": {
                 "taskmaster9ef1d2b3": {}
+            },
+            "notifications": {
+                "Pinpoint": {
+                    "Name": "taskmasterqdkA3-taskmaster",
+                    "Id": "e7de1681ae074bb9bfa3889b76da12fa",
+                    "Region": "us-east-1"
+                }
             }
         }
     }

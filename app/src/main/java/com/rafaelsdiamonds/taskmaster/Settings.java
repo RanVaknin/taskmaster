@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
-import com.example.taskmaster.R;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class Settings extends AppCompatActivity {
