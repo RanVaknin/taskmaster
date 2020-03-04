@@ -22,3 +22,6 @@ The app can now save your username to shared preference to be displayed througho
 3/3 added notifications. now on opening the app we will be notified "task is created"
 
 3/4 added the possibility to upload pictures directly from phone - use the "share" ![](https://howto.socialchorus.com/hc/article_attachments/115012490668/share_android.png) button from your photo album and directly upload as task image.
+
+3/4 added functionality to ask user for their location. if approved location is now associated with task.
+![](https://scontent-sea1-1.xx.fbcdn.net/v/t1.15752-9/89242104_221899202290593_512946814584881152_n.png?_nc_cat=110&_nc_sid=b96e70&_nc_ohc=hMSnXM6rvPIAX9leMDa&_nc_ht=scontent-sea1-1.xx&oh=f4d77a98860a317e11973b91ba342316&oe=5E951DA5)
