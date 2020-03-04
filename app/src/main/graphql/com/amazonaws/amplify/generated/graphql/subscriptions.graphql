@@ -10,6 +10,7 @@ subscription OnCreateTeam {
         body
         image
         state
+        location
       }
       nextToken
     }
@@ -26,6 +27,7 @@ subscription OnUpdateTeam {
         body
         image
         state
+        location
       }
       nextToken
     }
@@ -42,6 +44,7 @@ subscription OnDeleteTeam {
         body
         image
         state
+        location
       }
       nextToken
     }
@@ -54,6 +57,7 @@ subscription OnCreateTask {
     body
     image
     state
+    location
     team {
       id
       name
@@ -70,6 +74,7 @@ subscription OnUpdateTask {
     body
     image
     state
+    location
     team {
       id
       name
@@ -86,6 +91,7 @@ subscription OnDeleteTask {
     body
     image
     state
+    location
     team {
       id
       name

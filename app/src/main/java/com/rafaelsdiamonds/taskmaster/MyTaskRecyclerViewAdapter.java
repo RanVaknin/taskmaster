@@ -51,7 +51,8 @@ public class MyTaskRecyclerViewAdapter extends RecyclerView.Adapter<MyTaskRecycl
                 Intent i = new Intent(context,TaskDetail.class).putExtra("Task",mValues.get(position).title())
                         .putExtra("TaskDetails",mValues.get(position).body());
                 if(mValues.get(position).team().name() != null){
-                    i.putExtra("TaskTeam",mValues.get(position).team().name()).putExtra("TaskImg",mValues.get(position).image());
+                    i.putExtra("TaskTeam",mValues.get(position).team().name()).putExtra("TaskImg",mValues.get(position).image())
+                            .putExtra("TaskLocation",mValues.get(position).location());
                 }
                 context.startActivity(i);
             }
