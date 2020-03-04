@@ -10,6 +10,7 @@ type Task @model {
   body: String
   image: String
   state: String
+  location: String
   team: Team @connection(name: "TeamTasks")
 }
 

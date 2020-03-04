@@ -13,6 +13,7 @@ mutation CreateTeam(
         body
         image
         state
+        location
       }
       nextToken
     }
@@ -32,6 +33,7 @@ mutation UpdateTeam(
         body
         image
         state
+        location
       }
       nextToken
     }
@@ -51,6 +53,7 @@ mutation DeleteTeam(
         body
         image
         state
+        location
       }
       nextToken
     }
@@ -66,6 +69,7 @@ mutation CreateTask(
     body
     image
     state
+    location
     team {
       id
       name
@@ -85,6 +89,7 @@ mutation UpdateTask(
     body
     image
     state
+    location
     team {
       id
       name
@@ -104,6 +109,7 @@ mutation DeleteTask(
     body
     image
     state
+    location
     team {
       id
       name
