@@ -20,3 +20,5 @@ The app can now save your username to shared preference to be displayed througho
 2/26 users are now able to upload pictures to S3 bucket and associate it with task, and then using Picasso photos are being rendered to each individual task's page.
 
 3/3 added notifications. now on opening the app we will be notified "task is created"
+
+3/4 added the possibility to upload pictures directly from phone - use the "share" ![](https://howto.socialchorus.com/hc/article_attachments/115012490668/share_android.png) button from your photo album and directly upload as task image.
